@@ -1,0 +1,19 @@
+//https://www.hackerrank.com/challenges/hackerland-radio-transmitters/problem
+
+int hackerlandRadioTransmitters(vector<int> x, int k) {
+    int res=0;
+    int i=0;
+    int n = x.size();
+    sort(x.begin(),x.end());
+    while(i<n)
+    {
+        res++;
+        int loc = x[i]+k;
+        while(i<n && x[i]<=loc)
+            i++;
+        loc = x[--i]+k;     //x[--i] is where we place the transmitter         
+        while(i<n && x[i]<=loc)
+            i++;            //this is the right coverage of the tramitter
+    }
+    return res;
+}

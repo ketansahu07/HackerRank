@@ -1,0 +1,50 @@
+//https://www.hackerrank.com/challenges/gridland-metro/problem?h_r=next-challenge&h_v=zen
+
+long long gridlandMetro(long long n, long long maddy, int k, vector<vector<int>> track) {
+    unordered_map<int,vector<pair<int,int>>> m;
+
+    long long res=maddy*n;
+    
+    for(int i=0;i<k;i++)
+    {
+        int r = track[i][0];
+        int start = track[i][1];
+        int end = track[i][2];
+        m[r].push_back({start,end});
+    }
+    
+    for(auto &i:m)
+    {
+        vector<pair<int,int>> v;
+        v = i.second;
+        sort(v.begin(),v.end());
+    }
+    
+    for(auto &i:m)
+    {
+        long long temp=0;
+        vector<pair<int ,int>> v;
+        v = i.second;
+        for(int j=1;j<v.size();j++)
+        {
+            if(v[temp].second>=v[j].first)
+            {
+                v[temp].second = max(v[temp].second,v[j].second);
+                v[temp].first = min(v[temp].first,v[j].first);
+            }
+            else
+            {
+                temp++;
+                v[temp] = v[j];
+            }
+        }
+        long long filled=0;
+        for(int j=0;j<=temp;j++)
+        {
+            filled += v[j].second-v[j].first+1;
+        }
+
+        res -= filled;
+    }
+    return res;
+}

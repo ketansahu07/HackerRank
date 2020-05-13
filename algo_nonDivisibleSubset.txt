@@ -1,0 +1,31 @@
+//https://www.hackerrank.com/challenges/non-divisible-subset/problem
+
+int nonDivisibleSubset(int k, vector<int> s) {
+    unordered_map<int, int> m;
+    for(auto i:s)
+    {
+        int temp = i%k;
+        // cout<<"rem => "<<temp<<endl;
+        m[temp]++;
+    }
+    int res=0;
+    for(auto &i:m)
+    {
+        // cout<<i.F<<" => "<<i.S<<endl;
+        if(i.F==0 || i.F==k-i.F)
+        {
+            res+=1;
+            // m.erase(i.F);
+        }
+        else if(m.find(k-i.F)!=m.end() && i.S>m[k-i.F])
+        {
+            res+=i.S;
+            // m.erase(k-i.F);
+        }
+        else if(m.find(k-i.F)==m.end())
+        {
+            res+=i.S;
+        }
+    }
+    return res;
+}

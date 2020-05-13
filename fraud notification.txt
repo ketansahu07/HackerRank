@@ -1,0 +1,23 @@
+https://www.hackerrank.com/challenges/fraudulent-activity-notifications/problem?h_l=interview&playlist_slugs%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D=sorting&h_r=next-challenge&h_v=zen&h_r=next-challenge&h_v=zen&h_r=next-challenge&h_v=zen
+
+def activityNotifications(expenditure, d):
+
+    notif = 0 ; MAX = 200 ; c = [0] * (MAX+1)
+    for e in expenditure[:d] : c[e] += 1
+
+    def median():
+        s = 0
+        for x in range(MAX+1):
+            s += c[x]
+            if 2*s >= d : break
+        if d%2 == 1 or 2*s > d : return x
+
+        for y in range(x+1,MAX+1):
+            if c[y] != 0 : break
+        return (x+y)/2
+
+    for i in range(d,len(expenditure)):
+        if expenditure[i] >= 2*median() : notif += 1
+        c[expenditure[i-d]] -= 1
+        c[expenditure[i]] += 1
+    return notif

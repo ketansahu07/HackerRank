@@ -1,0 +1,15 @@
+//https://www.hackerrank.com/challenges/count-triplets-1/problem?h_l=interview&playlist_slugs%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D=dictionaries-hashmaps&h_r=next-challenge&h_v=zen&h_r=next-challenge&h_v=zen&h_r=next-challenge&h_v=zen
+
+long countTriplets(vector<long> arr, long r) {
+    unordered_map<long long,long long> m2,m3;
+    long long res=0;
+    for(int i=0;i<arr.size();i++)
+    {
+        if(m3.count(arr[i]))
+            res+=m3[arr[i]];
+        if(m2.count(arr[i]))
+            m3[arr[i]*r]+=m2[arr[i]];
+        m2[arr[i]*r]++;
+    }
+    return res;
+}

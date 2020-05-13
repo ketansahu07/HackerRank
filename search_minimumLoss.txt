@@ -1,0 +1,61 @@
+//https://www.hackerrank.com/challenges/minimum-loss/problem
+
+// Complete the minimumLoss function below.
+long minimumLoss(vector<long> price, int n) {
+    long res=INT_MAX;
+    vector<pair<long, int>> v(n);
+    for(int i=0;i<n;i++)
+    {
+        v[i] = {price[i],i};
+    }
+
+    sort(v.begin(),v.end());
+
+    for(int i=1;i<n;i++)
+    {
+        if(v[i].first-v[i-1].first<res && v[i].second<v[i-1].second)
+            res = v[i].first - v[i-1].first;
+    }
+
+    return res;
+}
+============================================================================
+priority queue solution but time limit exceeds in 2 cases
+============================================================================
+priority_queue<int> pq;
+    priority_queue<int> pq2;
+    for(int i=0;i<n;i++)
+        pq.push(price[i]);
+    long res = 99999;
+    int j=0;
+    while(j<n)
+    {
+        while(pq.empty()==false)
+        {
+            long temp = pq.top();
+            pq.pop();
+            if(temp == price[j])
+            {
+                continue;
+            }
+
+            if(temp>price[j])
+            {
+                pq2.push(temp);
+            }
+            else
+            {
+                res = min(res,price[j]-temp);
+                pq.push(temp);
+                break;
+            }
+        }
+        j++;
+
+        while(pq2.empty()==false)
+        {
+            pq.push(pq2.top());
+            pq2.pop();
+        }
+    }
+    return res;

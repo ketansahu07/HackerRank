@@ -1,0 +1,28 @@
+//https://www.hackerrank.com/challenges/game-of-two-stacks/problem?h_r=next-challenge&h_v=zen&h_r=next-challenge&h_v=zen
+//to find the maximum number of intergers that one can pick before the sum of those integers exceeds the given value x
+//really good technique
+
+int twoStacks(int x, vector<int> a, vector<int> b, int n, int m) {
+    /*
+     * Write your code here.
+     */
+    int i=0, j=0;
+    long long sum=0;
+    int count=0;
+    while(i<n && sum+a[i]<=x)
+        sum+=a[i++];
+    count=i;
+    while(j<m && i>=0)
+    {
+        sum+=b[j];
+        j++;
+        while(sum>x && i>0)
+        {
+            i--;
+            sum-=a[i];
+        }
+        if(sum<=x && i+j>count)
+            count=i+j;
+    }
+    return count;
+}

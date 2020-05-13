@@ -1,0 +1,65 @@
+//https://www.hackerrank.com/challenges/queens-attack-2/problem?h_r=next-challenge&h_v=zen&h_r=next-challenge&h_v=zen&h_r=next-challenge&h_v=zen&h_r=next-challenge&h_v=zen
+
+int queensAttack(int n, int k, int r_q, int c_q, vector<vector<int>> obstacles) {
+    int left=c_q-1;
+    int right=n-c_q;
+    int top=n-r_q;
+    int bottom=r_q-1;
+    int nw=min(c_q-1,n-r_q);
+    int sw=min(r_q-1,c_q-1);
+    int ne=min(n-r_q,n-c_q);
+    int se=min(n-c_q,r_q-1);
+    int ob_size = obstacles.size();
+    // cout<<left<<" "<<right<<" "<<top<<" "<<bottom<<endl;
+    // cout<<nw<<" "<<ne<<" "<<sw<<" "<<se<<endl;
+    for(int i=0;i<ob_size;i++)
+    {
+        int temp;
+        int x=obstacles[i][0], y=obstacles[i][1];
+        if(x==r_q)
+        {
+            temp=abs(y-c_q)-1;
+            if(y<c_q && temp<left)
+                    left=temp;
+            else if(y>c_q && temp<right)
+                right=temp;
+        }
+        else if(y==c_q)
+        {
+            temp=abs(x-r_q)-1;
+            if(x<r_q && temp<bottom)
+                    bottom=temp;
+            else if(x>r_q && temp<top)
+                top=temp;
+        }
+        else if(y>c_q && (r_q+c_q==x+y || r_q-c_q==x-y))
+        {
+            if(x>r_q)   //north east direction
+            {
+                temp=min(x-r_q,y-c_q)-1;
+                ne=min(ne,temp);
+            }
+            else if( x<r_q)
+            {
+                temp=min(r_q-x,y-c_q)-1;
+                se=min(se,temp);
+            }
+        }
+        else if(r_q+c_q==x+y || r_q-c_q==x-y)
+        {
+            if(x>r_q)   //north east direction
+            {
+                temp=min(x-r_q,c_q-y)-1;
+                nw=min(temp,nw);
+            }
+            else if(x<r_q)
+            {
+                temp=min(r_q-x,c_q-y)-1;
+                sw=min(temp,sw);
+            }
+        }
+    }
+    // cout<<left<<" "<<right<<" "<<top<<" "<<bottom<<endl;
+    // cout<<nw<<" "<<ne<<" "<<sw<<" "<<se<<endl;
+    return left+right+top+bottom+ne+nw+se+sw;
+}

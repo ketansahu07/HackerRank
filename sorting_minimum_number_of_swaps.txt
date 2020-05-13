@@ -1,0 +1,36 @@
+//https://www.hackerrank.com/challenges/lilys-homework/problem
+
+int solve(vector<int> arr)
+{
+    unordered_map<int,int> m;
+    for(int i=0;i<arr.size();i++)
+        m[arr[i]] = i;
+
+    vector<int> v(arr.begin(),arr.end());
+    sort(v.begin(),v.end());
+    int res = 0;
+
+    for(int i=0;i<arr.size();i++)
+    {
+        if(arr[i]!=v[i])
+        {
+            res++;
+            m[arr[i]]=m[v[i]];
+            int in_to_s=m[v[i]];
+            swap(arr[i],arr[in_to_s]);
+        }
+    }
+    return res;
+}
+
+// Complete the lilysHomework function below.
+int lilysHomework(vector<int> arr) {
+    int asc = solve(arr);
+    reverse(arr.begin(),arr.end());
+    int desc = solve(arr);
+
+
+    if(asc<desc)
+        return asc;
+    return desc;
+}
